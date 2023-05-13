@@ -35,7 +35,7 @@ object UserBehavior {
     val datePV = pv.withColumnRenamed("count", "pv")
     datePV.show()
     datePV.coalesce(1).write.option("header", "true").mode(SaveMode.Overwrite).csv("file:///home/data/date_pv")
-
+    
   }
 
   def getDateUniqueVisitor(inpath: String = inpath): Unit = {

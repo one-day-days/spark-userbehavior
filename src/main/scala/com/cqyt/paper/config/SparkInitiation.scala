@@ -19,17 +19,18 @@ object SparkInitiation {
   private def getSparkConf(): SparkConf = {
     //get SparkContext
     val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("userBehavior")
+      .set("spark.local.dir","F://tmp/spark")
       .set("spark.sql.adaptive.enabled", "true")
       .set("spark.sql.adaptive.merge.output.small.files.enabled", "true")
       .set("spark.sql.adaptive.coalescePartitions.enabled", "true")
       .set("spark.sql.adaptive.coalescePartitions.initialPartitionNum", "1000")
       .set("spark.sql.adaptive.coalescePartitions.minPartitionNum", "1")
-      .set("spark.sql.adaptive.advisoryPartitionSizeInBytes", "128mb")
+      .set("spark.sql.adaptive.advisoryPartitionSizeInBytes", "256mb")
       .set("spark.dynamicAllocation.enabled", "true") // 动态申请资源
       .set("spark.dynamicAllocation.shuffleTracking.enabled", "true") // shuffle动态跟踪
       .set("spark.sql.optimizer.dynamicPartitionPruning.enabled", "true")
       .set("spark.reducer.maxSizeInFlight", "96m")
-      .set("spark.sql.shuffle.partitions", "10")
+      .set("spark.sql.shuffle.partitions", "6")
     conf
   }
 
