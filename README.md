@@ -57,6 +57,46 @@
 
 数据挖掘是通过机器学习算法对特征数据集进行训练和预测的过程。本项目使用Spark MLib结合提取后的特征，采用逻辑回归、随机森林、梯度提升树三个模型进行用户购买行为的预测。
 
+```scala
+//1.创建逻辑回归模型
+val lr = new LogisticRegression()
+    .setLabelCol("label")
+    .setFeaturesCol("featuresVector")
+    .setMaxIter(10)
+    .setRegParam(0.3)
+    .setElasticNetParam(0.8)
+//训练模型
+val lrModel = lr.fit(trainingData)
+//使用测试集评估模型性能
+val predictions = lrModel.transform(testData)
+
+//2.创建随机森林模型
+val rf = new RandomForestClassifier()
+    .setLabelCol("label")
+    .setFeaturesCol("features_vector")
+    .setNumTrees(10)  
+//训练模型
+val model = rf.fit(trainingData)
+//对测试集进行预测
+val predictions = model.transform(testData)
+
+//3.构建GBDT模型
+val gbdt = new GBTClassifier()
+    .setLabelCol("label")
+    .setFeaturesCol("features")
+    .setMaxIter(10)
+    .setFeatureSubsetStrategy("auto")
+    .setMinInfoGain(0.2)
+    .setLossType("leastSquares")
+//构建pipeline
+val pipeline = new Pipeline()
+	.setStages(Array(assembler, gbdt))
+//训练模型
+val model = pipeline.fit(trainingData)
+//对测试集进行预测
+val predictions = model.transform(testData)
+```
+
 
 
 ## **模型评估**
